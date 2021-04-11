@@ -1,0 +1,11 @@
+antes de comecar o penteste ou o tutorial use o comando
+
+#script -a -f nomedoarquivo.log
+
+apos finalizar use
+
+#exit
+
+Eh uma otima para tutoriais e escrita de relatorios pentest.
+
+

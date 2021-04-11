@@ -1,0 +1,217 @@
+consideremos reconstruir um arquivo apartir dos hexas de saida do xxd
+
+cat data.txt | xxd -r > data && file data
+file is gzip
+entao mv data data.gzip
+gzip -d data.gzip
+
+cat ./- (STDIN STDOUT, se o nome de um arquivo for "-" qualquer programa vai confundir com - de paternal)
+file ./-
+
+for n in {00..19};do wc -c /home/bandit5/inhere/maybehere$n/* | grep 1033 ;done
+
+for n in {0..33};do ls -la /home/bandit5/inhere/bandit$n/ | grep 33 ;done
+
+https://medium.com/operacionalti/gerenciamento-de-usu%C3%A1rios-e-grupos-4564d3b64195
+
+bandit8@bandit:~$ cat data.txt | sort -un (errado)
+VkBAEWyIibVkeURZV5mowiGg6i3m7Be0
+1ETSsKgjfQj1cJeFzXLJWzKzza3iWcJa
+2CxmtCkpNL5ZjuoNzAtShkPXf5T43W7s
+4SMqyZZztep75cte6xxKpVL49pKUkV8N
+5cO8XuoQWrzsyeOWDht8zgUIVWSRDaeC
+6PF22p6O8TphCTZot9ApZx8VfGuo8rd5
+07KC3ukwX7kswl8Le9ebb3H3sOoNTsR2
+8jtZmvqp9PTi8tp1oybBM663NQH3fhII
+10XitczY5Dz7UMoseKIeFWSzzwQrylfw
+33xpPQhjt4Q2mqtX4sCVRwH2Zyh82E8R
+337o85y4OymIh99WPUtotkb114evfAkC
+
+VkBAEWyIibVkeURZV5mowiGg6i3m7Be0
+
+cat data.txt | sort | uniq -c | grep "^ *1 " (certo)
+
+UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
+
+truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
+
+ROT13
+Gur cnffjbeq vf 5Gr8L4qetPEsPk8htqjhRK8XSP6x2RHh
+
+Caso: Obtive uma chave privada ssh e preciso logar:
+
+ssh bandit14@localhost -i sshkey.private
+
+nc -v localhost 30000
+
+openssl s_client -connect localhost:30001
+
+for i in $({31000..32000});do nc -v localhost $i;done
+BANDIT16
+...
+...
+openssl s_client -connect localhost:31790
+
+chmod 400 sshkey.private
+
+cat /etc/bandit_pass/bandit17
+
+bandit17@bandit:~$ diff passwords.new passwords.old
+42c42
+< kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+---
+> w0Yfolrc5bwjS4qw5mq1nnQi6mF03bii
+
+ssh bandit18@bandit.labs.overthewire.org -p 2220 ls
+
+ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme
+
+file bandit19-do(elf...) 
+xxd bandit19-do
+(copie e reconstrua em sua maquina)
+nano bandit19.elf (cole)
+chmod +x bandit19.elf
+
+./bandit20-do id
+
+bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+---------------------------------------------
+
+bandit20@bandit:~$ nc -vnlp 7070 < /etc/bandit_pass/bandit20
+listening on [any] 7070 ...
+connect to [127.0.0.1] from (UNKNOWN) [127.0.0.1] 60138
+gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+
+bandit20@bandit:~$ ./suconnect 7070
+Read: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+Password matches, sending next password
+
+nano /etc/cron.d/ bandit22
+cat /tmp/...
+
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 > /tmp/black
+
+cp blackcyber.sh ..
+cp blackcyber.sh ..
+cp blackcyber.sh ..
+cp blackcyber.sh ..
+
+cat /tmp/black
+
+crunch 37 37 -t "UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ %%%%" -o pass.txt
+
+cat pass.txt | nc -v localhost 30002 > passsword.txt
+
+bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext
+#!/bin/sh
+
+export TERM=linux
+
+more ~/text.txt
+exit 0
+
+25/26
+
+https://medium.com/@coturnix97/overthewires-bandit-25-26-shell-355d78fd2f4d
+
+26- logar via 25, diminuir terminal para usar o more, usar a 
+chave privada rsa pra conectar ao 26 via ssh -i
+editar o arquivo de banner (bandit26) inserindo o comando
+:e /etc/bandit_pass/bandit26 (para exibir a senha)
+:shell
+:set shell=/bin/bash (pra conseguir o /bin/bash)
+:shell
+
+bandit26@bandit:~$ ./bandit27-do cat /etc/bandit_pass/bandit27
+3ba3118a22e93127a4ed485be72ef5ea
+
+
+27- git clone ssh://bandit27-git@localhost/home/bandit27-git/repo.git
+
+
+28- git clone ssh://bandit28-git@localhost/home/bandit28-git/repo.git
+
+# Bandit Notes
+Some notes for level29 of bandit.
+
+## credentials
+
+- username: bandit29
+- password: xxxxxxxxxx
+
+git log
+git checkout (aqui um hash de commint)
+
+cat README.md
+
+29- 
+- username: bandit29
+- password: bbc96594b4e001778eee9975372716b2
+
+git branch
+git branch -r
+git checkout dev
+cat README.md
+git log -p -1
+
+Se nao ver o arquivo certo, tente verificar com cada hash de commint
+
+30- 
+git branch
+git branch -r
+git tag
+git show secret
+
+31-
+
+echo 'May I come in?' > key.txt
+git log
+git branch
+git add key.txt
+rm .gitignore
+git commit -m key.txt
+git push origin master
+digite a senha do level anterior pro ssh
+
+bandit31@bandit:/tmp/my31/repo$ git push origin master
+Could not create directory '/home/bandit31/.ssh'.
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+Are you sure you want to continue connecting (yes/no)? yes
+Failed to add the host to the list of known hosts (/home/bandit31/.ssh/known_hosts).
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+bandit31-git@localhost's password: 
+Counting objects: 3, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 319 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+remote: ### Attempting to validate files... ####
+remote: 
+remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+remote: 
+remote: Well done! Here is the password for the next level:
+remote: 56a9bf19c63d650ce78e6ec0354ee45e
+remote: 
+remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+remote: 
+To ssh://localhost/home/bandit31-git/repo.git
+ ! [remote rejected] master -> master (pre-receive hook declined)
+error: failed to push some refs to 'ssh://bandit31-git@localhost/home/bandit31-git/repo.git'
+
+56a9bf19c63d650ce78e6ec0354ee45e
+
+32- uppercase shell
+ls
+LS not found
+$0
+/bin/bash
+pwd
+/home/xx
+
+bandit33@bandit:~$ cat /etc/bandit_pass/bandit33
+c9c3199ddf4121b10cf581a98d51caee
+

