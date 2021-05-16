@@ -31,5 +31,5 @@ https://bugcrowd.com/user/sign_in
 
 http://www.bughunt.com.br
 
-
+https://www.hackingarticles.in/ctf-challenges-walkthrough/
 
