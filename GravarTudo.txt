@@ -8,4 +8,13 @@ apos finalizar use
 
 Eh uma otima para tutoriais e escrita de relatorios pentest.
 
+Para filtrar o arquivo de saida:
 
+O comando script para reports via log
+
+https://www.geeksforgeeks.org/script-command-in-linux-with-examples/ (Utilidades top do script)
+
+
+https://askubuntu.com/questions/1064344/how-to-convert-script-command-output-into-plain-text
+
+sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" logOficial.log | tr -dc '[[:print:]]\n' > ArquivoLimpo.txt
