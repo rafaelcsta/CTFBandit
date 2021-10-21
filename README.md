@@ -33,3 +33,5 @@ http://www.bughunt.com.br
 
 https://www.hackingarticles.in/ctf-challenges-walkthrough/
 
+https://www.vulnerability-lab.com/list-of-bug-bounty-programs.php
+
